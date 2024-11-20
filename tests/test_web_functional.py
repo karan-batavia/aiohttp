@@ -693,12 +693,11 @@ async def test_http11_keep_alive_default(aiohttp_client) -> None:
     assert resp.version == HttpVersion11
     assert "Connection" not in resp.headers
 
-    await resp.release()
+    resp.release()
 
 
-@pytest.mark.xfail
-async def test_http10_keep_alive_default(aiohttp_client) -> None:
-    async def handler(request):
+async def test_http10_keep_alive_default(aiohttp_client: AiohttpClient) -> None:
+    async def handler(request: web.Request) -> web.Response:
         return web.Response()
 
     app = web.Application()
